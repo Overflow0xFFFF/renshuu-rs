@@ -13,6 +13,7 @@ pub fn get_args() -> Result<Args> {
     Ok(args)
 }
 
-pub fn run(args: Args) -> Result<()> {
+pub fn run(_args: Args) -> Result<()> {
+    let _config = crate::config::get().expect("Failed to read configuration file");
     Ok(())
 }
