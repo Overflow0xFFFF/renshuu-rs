@@ -7,7 +7,7 @@ readme = "README.md"
 license = "MIT"
 keywords = ["renshuu", "api", "japanese"]
 description = """
-Parse and calculate semantic version information from a Git repository.
+A Rust Renshuu v1 API client.
 """
 
 [lib]
