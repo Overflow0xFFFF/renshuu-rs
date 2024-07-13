@@ -20,7 +20,8 @@ pub async fn run(_args: Args) -> Result<()> {
         "https://api.renshuu.org/v1",
         config.api_key.expose_secret(),
     )?;
-    let out = client.user_profile().await.unwrap();
-    println!("{}", out);
+    println!("{}", client.get_profile().await.unwrap());
+    println!("{}", client.get_lists().await.unwrap());
+    println!("{}", client.get_term_list_by("kanji").await.unwrap());
     Ok(())
 }

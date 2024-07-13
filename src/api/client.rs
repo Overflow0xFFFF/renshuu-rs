@@ -35,8 +35,23 @@ impl Client {
         Ok(Client { url, client })
     }
 
-    pub async fn user_profile(&self) -> Result<String> {
+    pub async fn get_profile(&self) -> Result<String> {
         let url = format!("{}/profile", self.url);
+        Ok(self.client.get(url).send().await?.text().await?)
+    }
+
+    pub async fn get_lists(&self) -> Result<String> {
+        let url = format!("{}/lists", self.url);
+        Ok(self.client.get(url).send().await?.text().await?)
+    }
+
+    pub async fn get_list_by(&self, id: &str) -> Result<String> {
+        let url = format!("{}/list/{}", self.url, id);
+        Ok(self.client.get(url).send().await?.text().await?)
+    }
+
+    pub async fn get_term_list_by(&self, termtype: &str) -> Result<String> {
+        let url = format!("{}/list/all/{}", self.url, termtype);
         Ok(self.client.get(url).send().await?.text().await?)
     }
 }
