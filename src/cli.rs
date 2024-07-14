@@ -30,6 +30,10 @@ pub async fn run(_args: Args) -> Result<()> {
     );
     println!(
         "{}",
+        serde_json::to_string(&client.user().get_list_by("5005186").await.unwrap()).unwrap()
+    );
+    println!(
+        "{}",
         serde_json::to_string(
             &client
                 .user()
