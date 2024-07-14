@@ -4,11 +4,14 @@ mod api;
 
 pub mod cli;
 pub mod config;
+pub mod models;
 
-use std::sync::Arc;
+use std::{collections::HashMap, sync::Arc};
 
 use anyhow::Result;
 use reqwest::header::{HeaderMap, HeaderValue};
+use serde::de::DeserializeOwned;
+use serde::Serialize;
 
 const RENSHUU_BASE_URI: &str = "https://api.renshuu.org/v1";
 
@@ -56,8 +59,52 @@ impl Renshuu {
 
 /// # HTTP Methods
 impl Renshuu {
-    pub async fn get(&self, route: &str) -> Result<reqwest::Response> {
+    pub async fn delete<U: DeserializeOwned>(
+        &self, route: &str, headers: Option<HeaderMap>, params: Option<HashMap<String, String>>,
+    ) -> Result<U> {
+        self.request::<(), U>(reqwest::Method::DELETE, route, headers, params, None)
+            .await
+    }
+
+    pub async fn get<U: DeserializeOwned>(
+        &self, route: &str, headers: Option<HeaderMap>, params: Option<HashMap<String, String>>,
+    ) -> Result<U> {
+        self.request::<(), U>(reqwest::Method::GET, route, headers, params, None)
+            .await
+    }
+
+    pub async fn post<T: Serialize, U: DeserializeOwned>(
+        &self, route: &str, headers: Option<HeaderMap>, params: Option<HashMap<String, String>>,
+        body: Option<T>,
+    ) -> Result<U> {
+        self.request::<T, U>(reqwest::Method::POST, route, headers, params, body)
+            .await
+    }
+
+    pub async fn put<T: Serialize, U: DeserializeOwned>(
+        &self, route: &str, headers: Option<HeaderMap>, params: Option<HashMap<String, String>>,
+        body: Option<T>,
+    ) -> Result<U> {
+        self.request::<T, U>(reqwest::Method::PUT, route, headers, params, body)
+            .await
+    }
+
+    async fn request<T: Serialize, U: DeserializeOwned>(
+        &self, method: reqwest::Method, route: &str, headers: Option<HeaderMap>,
+        params: Option<HashMap<String, String>>, body: Option<T>,
+    ) -> Result<U> {
         let url = format!("{}{}", crate::RENSHUU_BASE_URI, route);
-        Ok(self.client.get(url).send().await?)
+        let mut request = self.client.request(method, &url);
+        if let Some(headers) = headers {
+            request = request.headers(headers);
+        }
+        if let Some(params) = params {
+            request = request.query(&params);
+        }
+        if let Some(body) = body {
+            request = request.json(&body);
+        }
+        let response = request.send().await?.json::<U>().await?;
+        Ok(response)
     }
 }

@@ -3,6 +3,7 @@ use std::env;
 use anyhow::Result;
 use clap::Parser;
 use secrecy::ExposeSecret;
+use serde_json;
 
 use crate::Renshuu;
 
@@ -19,15 +20,24 @@ pub fn get_args() -> Result<Args> {
 pub async fn run(_args: Args) -> Result<()> {
     let config = crate::config::get().expect("Failed to read configuration file");
     let client = Renshuu::new(config.api_key.expose_secret())?;
-    println!("{}", client.user().get_profile().await.unwrap());
-    println!("{}", client.user().get_lists().await.unwrap());
     println!(
         "{}",
-        client
-            .user()
-            .get_list_of_all_terms_by("kanji")
-            .await
-            .unwrap()
+        serde_json::to_string(&client.user().get_profile().await.unwrap()).unwrap()
+    );
+    println!(
+        "{}",
+        serde_json::to_string(&client.user().get_lists().await.unwrap()).unwrap()
+    );
+    println!(
+        "{}",
+        serde_json::to_string(
+            &client
+                .user()
+                .get_list_of_all_terms_by("kanji")
+                .await
+                .unwrap()
+        )
+        .unwrap()
     );
     Ok(())
 }
