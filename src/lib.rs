@@ -67,6 +67,10 @@ impl Renshuu {
     pub fn user(&self) -> api::user::UserHandler {
         api::user::UserHandler::new(self)
     }
+
+    pub fn word(&self) -> api::word::WordHandler {
+        api::word::WordHandler::new(self)
+    }
 }
 
 /// # HTTP Methods
