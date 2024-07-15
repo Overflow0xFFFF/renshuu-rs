@@ -1,4 +1,5 @@
 pub mod grammar;
+pub mod kanji;
 pub mod lists;
 pub mod privacy;
 pub mod profile;

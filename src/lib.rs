@@ -56,6 +56,10 @@ impl Renshuu {
         api::grammar::GrammarHandler::new(self)
     }
 
+    pub fn kanji(&self) -> api::kanji::KanjiHandler {
+        api::kanji::KanjiHandler::new(self)
+    }
+
     pub fn reibun(&self) -> api::reibun::ReibunHandler {
         api::reibun::ReibunHandler::new(self)
     }

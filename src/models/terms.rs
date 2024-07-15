@@ -100,6 +100,15 @@ pub struct SchedulePresence {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 #[non_exhaustive]
+pub struct SimpleKanji {
+    id: String,
+    kanji: String,
+    definition: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+#[non_exhaustive]
 pub struct SimpleSentence {
     id: i64,
     japanese: String,
