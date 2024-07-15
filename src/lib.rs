@@ -52,6 +52,10 @@ impl Renshuu {
 
 /// # Renshuu API Methods
 impl Renshuu {
+    pub fn grammar(&self) -> api::grammar::GrammarHandler {
+        api::grammar::GrammarHandler::new(self)
+    }
+
     pub fn reibun(&self) -> api::reibun::ReibunHandler {
         api::reibun::ReibunHandler::new(self)
     }

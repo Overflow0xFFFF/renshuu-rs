@@ -1,3 +1,4 @@
+pub mod grammar;
 pub mod lists;
 pub mod privacy;
 pub mod profile;
