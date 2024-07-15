@@ -43,5 +43,13 @@ pub async fn run(_args: Args) -> Result<()> {
         )
         .unwrap()
     );
+    println!(
+        "{}",
+        serde_json::to_string(&client.reibun().search("learn Japanese").await.unwrap()).unwrap()
+    );
+    println!(
+        "{}",
+        serde_json::to_string(&client.reibun().search_by("1000").await.unwrap()).unwrap()
+    );
     Ok(())
 }

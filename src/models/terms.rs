@@ -101,10 +101,10 @@ pub struct SchedulePresence {
 #[serde(rename_all = "snake_case")]
 #[non_exhaustive]
 pub struct SimpleSentence {
-    id: String,
+    id: i64,
     japanese: String,
     hiragana: String,
-    meaning: Vec<String>,
+    meaning: HashMap<String, String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

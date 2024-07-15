@@ -52,6 +52,10 @@ impl Renshuu {
 
 /// # Renshuu API Methods
 impl Renshuu {
+    pub fn reibun(&self) -> api::reibun::ReibunHandler {
+        api::reibun::ReibunHandler::new(self)
+    }
+
     pub fn user(&self) -> api::user::UserHandler {
         api::user::UserHandler::new(self)
     }
