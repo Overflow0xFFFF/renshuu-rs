@@ -23,18 +23,16 @@ impl<'kao> ReibunHandler<'kao> {
         let route = "/reibun/search";
         let mut params = HashMap::new();
         params.insert("value".to_string(), query.to_string());
-        Ok(self
-            .renshuu
-            .get::<ReibunSearchResponse>(&route, None, Some(params))
-            .await?)
+        self.renshuu
+            .get::<ReibunSearchResponse>(route, None, Some(params))
+            .await
     }
 
     /// Search the sentence repository by word ID.
     pub async fn search_by(&self, word_id: &str) -> Result<ReibunSearchResponse> {
         let route = format!("/reibun/search/{}", word_id);
-        Ok(self
-            .renshuu
+        self.renshuu
             .get::<ReibunSearchResponse>(&route, None, None)
-            .await?)
+            .await
     }
 }

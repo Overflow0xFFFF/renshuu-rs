@@ -21,21 +21,20 @@ impl<'kao> UserHandler<'kao> {
 
     /// Get the user's profile.
     pub async fn get_profile(&self) -> Result<Profile> {
-        Ok(self.renshuu.get::<Profile>("/profile", None, None).await?)
+        self.renshuu.get::<Profile>("/profile", None, None).await
     }
 
     /// Get the lists created by the user.
     pub async fn get_lists(&self) -> Result<ListsResponse> {
-        Ok(self
-            .renshuu
+        self.renshuu
             .get::<ListsResponse>("/lists", None, None)
-            .await?)
+            .await
     }
 
     /// Get a user-created list by its identifier.
     pub async fn get_list_by(&self, id: &str) -> Result<TermList> {
         let route = format!("/list/{}", id);
-        Ok(self.renshuu.get::<TermList>(&route, None, None).await?)
+        self.renshuu.get::<TermList>(&route, None, None).await
     }
 
     /// Get a list of all terms of a given type that the user has studied.
@@ -43,9 +42,8 @@ impl<'kao> UserHandler<'kao> {
         &self, termtype: &str,
     ) -> Result<ListAllByTermTypeResponse> {
         let route = format!("/list/all/{}", termtype);
-        Ok(self
-            .renshuu
+        self.renshuu
             .get::<ListAllByTermTypeResponse>(&route, None, None)
-            .await?)
+            .await
     }
 }
